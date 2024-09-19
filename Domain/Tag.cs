@@ -2,6 +2,8 @@ namespace Fragment.Domain;
 
 public class Tag
 {
+    public int Id { get; protected set; }
+    
     private string _name;
 
     public string Name

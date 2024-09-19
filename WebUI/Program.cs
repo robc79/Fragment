@@ -1,7 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using Fragment.Infrastructure.Sql;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+
+builder.Services.AddDbContext<FragmentDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("Fragment");
+    options.UseSqlite(connectionString);
+});
 
 var app = builder.Build();
 

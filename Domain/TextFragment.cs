@@ -2,6 +2,8 @@ namespace Fragment.Domain;
 
 public class TextFragment
 {
+    public int Id { get; protected set; }
+    
     private string _text;
 
     public string Text
