@@ -6,5 +6,7 @@ public interface ITextFragmentRepository
 
     Task<List<TextFragment>> GetPageAsync(int skip, int take, CancellationToken ct);
 
+    Task AddAsync(TextFragment fragment, CancellationToken ct);
+
     Task DeleteAsync(int id, CancellationToken ct);
 }
