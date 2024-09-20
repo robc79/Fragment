@@ -17,10 +17,10 @@ public class ListModel : PageModel
 
     public List<TagDto> Tags { get; set; }
 
-    public async Task<IActionResult> OnGetAsync()
+    public async Task<IActionResult> OnGetAsync(CancellationToken ct)
     {
         var request = new ListTagsRequest();
-        var response = await _mediator.Send(request);
+        var response = await _mediator.Send(request, ct);
         Tags = response;
 
         return Page();

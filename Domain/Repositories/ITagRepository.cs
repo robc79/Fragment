@@ -7,4 +7,6 @@ public interface ITagRepository
     Task AddAsync(Tag tag, CancellationToken ct);
 
     Task DeleteAsync(int id, CancellationToken ct);
+    
+    Task<Tag?> GetByIdAsync(int id, CancellationToken cancellationToken);
 }

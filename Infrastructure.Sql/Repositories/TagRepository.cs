@@ -37,4 +37,9 @@ public class TagRepository : ITagRepository
     {
         return await _dbContext.Tags.ToListAsync(ct);
     }
+
+    public async Task<Tag?> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        return await _dbContext.Tags.SingleOrDefaultAsync(t => t.Id == id);
+    }
 }
