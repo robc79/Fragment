@@ -1,22 +1,26 @@
+using Fragment.Domain;
 using Fragment.Domain.Repositories;
 using MediatR;
 
-namespace Fragment.Application.DeleteTag;
+namespace Fragment.Application.AddTag;
 
-public class DeleteTagHandler : IRequestHandler<DeleteTagRequest>
+public class AddTagHandler : IRequestHandler<AddTagRequest, int>
 {
     private readonly ITagRepository _tagRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public DeleteTagHandler(IUnitOfWork unitOfWork, ITagRepository tagRepository)
+    public AddTagHandler(IUnitOfWork unitOfWork, ITagRepository tagRepository)
     {
         _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _tagRepository = tagRepository ?? throw new ArgumentNullException(nameof(tagRepository));
     }
 
-    public async Task Handle(DeleteTagRequest request, CancellationToken cancellationToken)
+    public async Task<int> Handle(AddTagRequest request, CancellationToken cancellationToken)
     {
-        await _tagRepository.DeleteAsync(request.Id, cancellationToken);
+        var tag = new Tag(request.Name);
+        await _tagRepository.AddAsync(tag, cancellationToken);
         await _unitOfWork.CommitChangesAsync(cancellationToken);
+
+        return tag.Id;
     }
 }

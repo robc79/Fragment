@@ -15,6 +15,7 @@ builder.Services.AddDbContext<FragmentDbContext>(options =>
     options.UseSqlite(connectionString);
 });
 
+builder.Services.AddScoped<IUnitOfWork>(s => s.GetRequiredService<FragmentDbContext>());
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<ITextFragmentRepository, TextFragmentRepository>();
 builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<ListTagsHandler>());
