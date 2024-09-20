@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Fragment.Infrastructure.Sql;
+using Fragment.Domain.Repositories;
+using Fragment.Infrastructure.Sql.Repositories;
+using Fragment.Application.ListTags;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +14,10 @@ builder.Services.AddDbContext<FragmentDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("Fragment");
     options.UseSqlite(connectionString);
 });
+
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<ITextFragmentRepository, TextFragmentRepository>();
+builder.Services.AddMediatR(c => c.RegisterServicesFromAssemblyContaining<ListTagsHandler>());
 
 var app = builder.Build();
 
