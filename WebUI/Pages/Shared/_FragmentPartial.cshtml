@@ -1,0 +1,16 @@
+@model Fragment.Application.Dtos.TextFragmentDto
+
+<div>
+    <pre>@Model.Text</pre>
+</div>
+
+<div>
+    @foreach (var tag in Model.Tags)
+    {
+        <span class="badge rounded-pill bg-primary">@tag</span>
+    }
+</div>
+
+<div>
+    <b>Created on:</b> @Model.CreatedOn.ToString("dd-MM-yyyy @ hh:mm");
+</div>

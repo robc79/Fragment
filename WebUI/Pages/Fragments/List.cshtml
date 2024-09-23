@@ -1,0 +1,19 @@
+﻿@page
+@model Fragment.WebUI.Pages.Fragments.ListModel
+@{
+    ViewData["Title"] = "Fragments";
+}
+
+<h1>Fragments</h1>
+
+@if (Model.Fragments.Any())
+{
+    foreach (var fragment in Model.Fragments)
+    {
+        <partial name="_FragmentPartial" model="@fragment" />
+    }
+}
+else
+{
+    <p>No fragments found.</p>
+}
