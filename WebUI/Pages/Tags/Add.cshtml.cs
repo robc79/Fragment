@@ -3,9 +3,8 @@ using Fragment.Application.AddTag;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SQLitePCL;
 
-namespace MyApp.Namespace;
+namespace Fragment.WebUI.Pages.Tags;
 
 public class AddModel : PageModel
 {

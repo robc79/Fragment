@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyApp.Namespace;
+namespace Fragment.WebUI.Pages.Tags;
 
 public class ListModel : PageModel
 {

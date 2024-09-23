@@ -1,0 +1,15 @@
+﻿@page "{fragmentId:int}"
+@model Fragment.WebUI.Pages.Fragments.DeleteModel
+@{
+    ViewData["Title"] = "Delete Fragment";
+}
+
+<h1>Delete fragment</h1>
+
+<p>Are you sure you wish to delete this fragment?</p>
+
+@Model.Fragment.Text
+
+<form method="post">
+    <input type="submit" class="btn btn-danger" value="Confirm" /> | <a asp-page="/Fragments/List">Back</a>
+</form>
