@@ -1,3 +1,4 @@
+using Fragment.Application.DeleteFragment;
 using Fragment.Application.Dtos;
 using Fragment.Application.GetFragment;
 using MediatR;
@@ -17,10 +18,10 @@ public class DeleteModel : PageModel
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-    public async Task<IActionResult> OnGetAsync(int fragmentId)
+    public async Task<IActionResult> OnGetAsync(int fragmentId, CancellationToken ct)
     {
         var request = new GetFragmentRequest(fragmentId);
-        var response = await _mediator.Send(request);
+        var response = await _mediator.Send(request, ct);
 
         if (response is null)
         {
@@ -32,12 +33,15 @@ public class DeleteModel : PageModel
         return Page();
     }
 
-    public async Task<IActionResult> OnPostAsync(int fragmentId)
+    public async Task<IActionResult> OnPostAsync(int fragmentId, CancellationToken ct)
     {
         if (!ModelState.IsValid)
         {
             return Page();
         }
+
+        var request = new DeleteFragmentRequest(fragmentId);
+        await _mediator.Send(request);
 
         return RedirectToPage("/Fragments/List");
     }

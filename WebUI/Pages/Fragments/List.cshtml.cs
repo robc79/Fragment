@@ -17,10 +17,10 @@ public class ListModel : PageModel
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
     }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] int skip, [FromQuery] int take)
+    public async Task<IActionResult> OnGetAsync([FromQuery] int skip, [FromQuery] int take, CancellationToken ct)
     {
         var request = new ListFragmentsRequest(skip, take);
-        var response = await _mediator.Send(request);
+        var response = await _mediator.Send(request, ct);
         Fragments = response;
 
         return Page();
