@@ -43,6 +43,6 @@ public class DeleteModel : PageModel
         var request = new DeleteFragmentRequest(fragmentId);
         await _mediator.Send(request);
 
-        return RedirectToPage("/Fragments/List");
+        return RedirectToPage("/Fragments/List", new { skip = 0, take = 10 });
     }
 }
