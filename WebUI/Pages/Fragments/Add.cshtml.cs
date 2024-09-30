@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+using Fragment.Application.AddFragment;
 using Fragment.Application.Dtos;
 using Fragment.Application.ListTags;
 using Fragment.Domain;
@@ -12,6 +14,7 @@ public class AddModel : PageModel
 {
     public class FormModel
     {
+        [Required]
         public string Text { get; set; }
 
         public int[] SelectedTagIds { get; set; } = [];
@@ -45,7 +48,10 @@ public class AddModel : PageModel
             return Page();
         }
 
-        return RedirectToPage("/Fragments/List");
+        var request = new AddFragmentRequest(Form.Text, Form.SelectedTagIds);
+        _ = await _mediator.Send(request, ct);
+
+        return RedirectToPage("/Fragments/List", new { skip = 0, take = 10 });
     }
 
     private async Task PopulateTags(CancellationToken ct)

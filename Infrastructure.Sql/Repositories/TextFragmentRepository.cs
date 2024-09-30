@@ -35,11 +35,11 @@ public class TextFragmentRepository : ITextFragmentRepository
 
     public async Task<TextFragment?> GetByIdAsync(int id, CancellationToken ct)
     {
-        return await _dbContext.TextFragments.SingleOrDefaultAsync(f => f.Id == id, ct);
+        return await _dbContext.TextFragments.Include(f => f.Tags).SingleOrDefaultAsync(f => f.Id == id, ct);
     }
 
     public async Task<List<TextFragment>> GetPageAsync(int skip, int take, CancellationToken ct)
     {
-        return await _dbContext.TextFragments.Skip(skip).Take(take).ToListAsync(ct);
+        return await _dbContext.TextFragments.Include(f => f.Tags).Skip(skip).Take(take).ToListAsync(ct);
     }
 }

@@ -36,7 +36,7 @@ public class AddModel : PageModel
         }
 
         var request = new AddTagRequest(Form.Name);
-        _ = _mediator.Send(request);
+        _ = await _mediator.Send(request);
 
         return RedirectToPage("/Tags/List");
     }
