@@ -3,6 +3,7 @@ using Fragment.Infrastructure.Sql;
 using Fragment.Domain.Repositories;
 using Fragment.Infrastructure.Sql.Repositories;
 using Fragment.Application.ListTags;
+using Fragment.Application.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,10 @@ builder.Services.AddDbContext<FragmentDbContext>(options =>
     var connectionString = builder.Configuration.GetConnectionString("Fragment");
     options.UseSqlite(connectionString);
 });
+
+var searchPageConfiguration = new SearchPageConfiguration();
+builder.Configuration.GetSection(SearchPageConfiguration.SectionName).Bind(searchPageConfiguration);
+builder.Services.AddSingleton(searchPageConfiguration);
 
 builder.Services.AddScoped<IUnitOfWork>(s => s.GetRequiredService<FragmentDbContext>());
 builder.Services.AddScoped<ITagRepository, TagRepository>();

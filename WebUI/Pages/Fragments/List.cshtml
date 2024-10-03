@@ -10,7 +10,29 @@
 {
     foreach (var fragment in Model.Fragments)
     {
-        <partial name="_FragmentPartial" model="@fragment" />
+        <div>
+            <partial name="_FragmentPartial" model="@fragment" />
+        </div>
+    }
+
+    if (Model.CurrentSkip == 0)
+    {
+        <span>Prev</span>
+    }
+    else
+    {
+        <a asp-page="/Fragments/List" asp-route-skip="@Model.PrevSkip">Prev</a>
+    }
+
+    <span>|</span>
+
+    if (Model.NextSkip == Model.CurrentSkip)
+    {
+        <span>Next</span>
+    }
+    else
+    {
+        <a asp-page="/Fragments/List" asp-route-skip="@Model.NextSkip">Next</a>
     }
 }
 else

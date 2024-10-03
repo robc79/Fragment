@@ -51,7 +51,7 @@ public class AddModel : PageModel
         var request = new AddFragmentRequest(Form.Text, Form.SelectedTagIds);
         _ = await _mediator.Send(request, ct);
 
-        return RedirectToPage("/Fragments/List", new { skip = 0, take = 10 });
+        return RedirectToPage("/Fragments/List", new { skip = 0 });
     }
 
     private async Task PopulateTags(CancellationToken ct)

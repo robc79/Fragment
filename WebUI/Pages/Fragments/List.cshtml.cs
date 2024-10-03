@@ -1,3 +1,4 @@
+using Fragment.Application.Configuration;
 using Fragment.Application.Dtos;
 using Fragment.Application.ListFragments;
 using MediatR;
@@ -9,19 +10,50 @@ namespace Fragment.WebUI.Pages.Fragments;
 public class ListModel : PageModel
 {
     private readonly IMediator _mediator;
+    private readonly SearchPageConfiguration _configuration;
 
     public List<TextFragmentDto> Fragments { get; set; }
 
-    public ListModel(IMediator mediator)
+    public int CurrentSkip { get; set; }
+
+    public int PrevSkip { get; set; }
+
+    public int NextSkip { get; set; }
+
+    public ListModel(IMediator mediator, SearchPageConfiguration configuration)
     {
         _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+        _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
     }
 
-    public async Task<IActionResult> OnGetAsync([FromQuery] int skip, [FromQuery] int take, CancellationToken ct)
+    public async Task<IActionResult> OnGetAsync([FromQuery] int skip, CancellationToken ct)
     {
-        var request = new ListFragmentsRequest(skip, take);
+        if (skip < 0)
+        {
+            skip = 0;
+        }
+
+        var request = new ListFragmentsRequest(skip, _configuration.EntriesPerPage + 1);
         var response = await _mediator.Send(request, ct);
-        Fragments = response;
+        Fragments = response.Take(_configuration.EntriesPerPage).ToList();
+
+        CurrentSkip = skip;
+
+        if (response.Count > _configuration.EntriesPerPage)
+        {
+            NextSkip = CurrentSkip + _configuration.EntriesPerPage;
+        }
+        else
+        {
+            NextSkip = CurrentSkip;
+        }
+
+        PrevSkip = CurrentSkip - _configuration.EntriesPerPage;
+
+        if (PrevSkip < 0)
+        {
+            PrevSkip = 0;
+        }
 
         return Page();
     }
