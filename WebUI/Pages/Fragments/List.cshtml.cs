@@ -12,7 +12,7 @@ public class ListModel : PageModel
     private readonly IMediator _mediator;
     private readonly SearchPageConfiguration _configuration;
 
-    public List<TextFragmentDto> Fragments { get; set; }
+    public List<TextFragmentDto> Fragments { get; set; } = [];
 
     public int CurrentSkip { get; set; }
 
@@ -28,11 +28,7 @@ public class ListModel : PageModel
 
     public async Task<IActionResult> OnGetAsync([FromQuery] int skip, CancellationToken ct)
     {
-        if (skip < 0)
-        {
-            skip = 0;
-        }
-
+        skip = skip < 0 ? 0 : skip;
         var request = new ListFragmentsRequest(skip, _configuration.EntriesPerPage + 1);
         var response = await _mediator.Send(request, ct);
         Fragments = response.Take(_configuration.EntriesPerPage).ToList();
@@ -49,12 +45,8 @@ public class ListModel : PageModel
         }
 
         PrevSkip = CurrentSkip - _configuration.EntriesPerPage;
-
-        if (PrevSkip < 0)
-        {
-            PrevSkip = 0;
-        }
-
+        PrevSkip = PrevSkip < 0 ? 0 : PrevSkip;
+        
         return Page();
     }
 }
