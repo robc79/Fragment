@@ -23,7 +23,7 @@ public class ListFragmentsHandler : IRequestHandler<ListFragmentsRequest, List<T
             Id = f.Id,
             Text = f.Text,
             CreatedOn = f.CreatedOn,
-            Tags = f.Tags.Select(t => t.Name).ToArray()
+            Tags = f.Tags.Select(t => new TagDto { Id = t.Id, Name = t.Name}).ToArray()
         }).ToList();
     }
 }

@@ -6,7 +6,7 @@
     
         @foreach (var tag in Model.Tags)
         {
-            <span class="badge rounded-pill bg-primary">@tag</span>
+            <span class="badge rounded-pill bg-primary">@tag.Name</span>
         }
 
         <div>
@@ -16,5 +16,6 @@
 
     <div class="card-footer">
         <a asp-page="/Fragments/Delete" asp-route-fragmentId="@Model.Id">delete</a>
+        | <a asp-page="/Fragments/Edit" asp-route-fragmentId="@Model.Id">edit</a>
     </div>
 </div>

@@ -8,5 +8,5 @@ public class TextFragmentDto
 
     public DateTimeOffset CreatedOn { get; set; }
 
-    public string[] Tags { get; set; }
+    public TagDto[] Tags { get; set; }
 }

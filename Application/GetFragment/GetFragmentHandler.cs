@@ -23,7 +23,7 @@ public class GetFragmentHandler : IRequestHandler<GetFragmentRequest, TextFragme
             Id = fragment.Id,
             Text = fragment.Text,
             CreatedOn = fragment.CreatedOn,
-            Tags = fragment.Tags.Select(t => t.Name).ToArray()
+            Tags = fragment.Tags.Select(t => new TagDto { Id = t.Id, Name = t.Name}).ToArray()
         };
     }
 }
