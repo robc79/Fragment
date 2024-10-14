@@ -40,6 +40,6 @@ public class TextFragmentRepository : ITextFragmentRepository
 
     public async Task<List<TextFragment>> GetPageAsync(int skip, int take, CancellationToken ct)
     {
-        return await _dbContext.TextFragments.Include(f => f.Tags).Skip(skip).Take(take).ToListAsync(ct);
+        return await _dbContext.TextFragments.Include(f => f.Tags).OrderBy(f => f.Id).Skip(skip).Take(take).ToListAsync(ct);
     }
 }
