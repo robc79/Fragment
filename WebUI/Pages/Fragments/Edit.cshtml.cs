@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Fragment.Application.Dtos;
+using Fragment.Application.EditFragment;
 using Fragment.Application.GetFragment;
 using Fragment.Application.ListTags;
 using MediatR;
@@ -45,6 +46,21 @@ public class EditModel : PageModel
         Form = new FormModel { Text = response.Text, SelectedTagIds = response.Tags.Select(t => t.Id).ToArray() };
         
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostAsync(int fragmentId, CancellationToken ct)
+    {
+        await PopulateTags(ct);
+
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        var request = new EditFragmentRequest(fragmentId, Form.Text, Form.SelectedTagIds);
+        await _mediator.Send(request, ct);
+
+        return RedirectToPage("/Fragments/List", new { skip = 0 });
     }
 
     private async Task PopulateTags(CancellationToken ct)
