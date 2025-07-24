@@ -4,7 +4,7 @@ namespace Fragment.Domain.Tests;
 
 public class TagTests
 {
-    public class Creation
+    public class WhenCreating
     {
         [Theory]
         [InlineData("")]
@@ -22,13 +22,13 @@ public class TagTests
         }
     }
 
-    public class Name
+    public class WhenSettingName
     {
         [Theory]
         [InlineData("")]
         [InlineData("    ")]
         [InlineData(null)]
-        public void MustBeSupplied(string? invalidName)
+        public void ValueMustBeSupplied(string? invalidName)
         {
             // Arrange
             var tag = new Tag("valid_name");

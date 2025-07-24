@@ -12,7 +12,7 @@ public class TextFragment
         
         set
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
                 throw new ArgumentException("Text must be supplied.");
             }
