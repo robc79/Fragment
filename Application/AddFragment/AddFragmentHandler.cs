@@ -22,8 +22,13 @@ public class AddFragmentHandler : IRequestHandler<AddFragmentRequest, int>
 
     public async Task<int> Handle(AddFragmentRequest request, CancellationToken cancellationToken)
     {
-        var fragment = new TextFragment(request.Text);
-        
+        if (request is null)
+        {
+            throw new ArgumentNullException(nameof(request), "Request must be supplied.");
+        }
+
+        var fragment = MakeFragment(request.Text);
+
         foreach (var tagId in request.TagIds)
         {
             var tag = await _tagRepository.GetByIdAsync(tagId, cancellationToken);
@@ -34,9 +39,14 @@ public class AddFragmentHandler : IRequestHandler<AddFragmentRequest, int>
             }
         }
 
-        await _textFragmentRepository.AddAsync(fragment, cancellationToken);        
+        await _textFragmentRepository.AddAsync(fragment, cancellationToken);
         await _unitOfWork.CommitChangesAsync(cancellationToken);
 
         return fragment.Id;
+    }
+    
+    protected virtual TextFragment MakeFragment(string text)
+    {
+        return new TextFragment(text);
     }
 }
