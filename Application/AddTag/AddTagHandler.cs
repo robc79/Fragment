@@ -17,10 +17,20 @@ public class AddTagHandler : IRequestHandler<AddTagRequest, int>
 
     public async Task<int> Handle(AddTagRequest request, CancellationToken cancellationToken)
     {
-        var tag = new Tag(request.Name);
+        if (request is null)
+        {
+            throw new ArgumentNullException(nameof(request), "Request must be supplied.");
+        }
+        
+        var tag = MakeTag(request.Name);
         await _tagRepository.AddAsync(tag, cancellationToken);
         await _unitOfWork.CommitChangesAsync(cancellationToken);
 
         return tag.Id;
+    }
+
+    protected virtual Tag MakeTag(string name)
+    {
+        return new Tag(name);
     }
 }
